@@ -9,7 +9,7 @@ class Brou(models.Model):
 
 class CustomUser(AbstractUser):
     type = models.CharField(max_length=255)
-    tel = models.IntegerField()
+    tel = models.IntegerField(null=True, blank=True)
     adresse = models.CharField(max_length=255, null=True, blank=True)
     nui = models.CharField(max_length=255, null=True, blank=True)
     ape = models.CharField(max_length=255, null=True, blank=True)

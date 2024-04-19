@@ -16,10 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+import Stamp.views 
 
+from rest_framework import routers
+
+
+router = routers.SimpleRouter()
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('stamp/',include('Stamp.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('accounts/profile/', Stamp.views.profile,name='account_profile'),
+    path('', Stamp.views.profile,name='home'),
+    
+    
     #path('',include('Stamp.urls')),
     
 ]

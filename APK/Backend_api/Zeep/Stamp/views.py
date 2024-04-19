@@ -8,6 +8,8 @@ from rest_framework.decorators  import api_view
 from django.http import JsonResponse
 
 from Stamp.models import Brou,CustomUser
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -39,3 +41,8 @@ def api_view(request):
     return JsonResponse(user_dic, safe=False)
     #return JsonResponse({}, safe=False)
         
+        
+        
+@login_required        
+def profile(request):
+    return render(request,'Stamp/profile.html',{})
