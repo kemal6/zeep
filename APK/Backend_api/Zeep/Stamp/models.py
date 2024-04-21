@@ -50,24 +50,27 @@ class Encrier(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class PatternStamp(models.Model):
+    ROND= 'ROND'
+    CARRE = "CARRE"
+    FORME_CHOICES = (
+        
+        (ROND,'Rond'),
+        (CARRE,'Carré')
+    )
     id = models.AutoField(primary_key=True)
     titre = models.CharField(max_length=255)
-    forme = models.CharField(max_length=255, null=True, blank=True)
-    format = models.CharField(max_length=255)
-    prix = models.DecimalField(max_digits=10, decimal_places=2)
-    taille_ecritue = models.CharField(max_length=255, null=True, blank=True)
-    maxlines = models.IntegerField()
-    nom_Entreprise = models.BooleanField()
-    tel_Entreprise = models.BooleanField()
-    adresse_Entreprise = models.BooleanField()
-    nui_Entreprise = models.BooleanField()
-    ape_Entreprise = models.BooleanField()
-    type_Entreprise = models.BooleanField()
-    email_Entreprise = models.BooleanField()
-    logo_Entreprise = models.BooleanField()
-    format_dateur = models.BooleanField()
+    forme = models.CharField(max_length=255,choices=FORME_CHOICES, null=True, blank=True)
+    prix = models.DecimalField(max_digits=10, decimal_places=2) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    image_example = models.ImageField(upload_to='MEDIA/image_example/PatternStamp',blank=False,null=False)
+"""
+        un model de backup pour les PatternStamp supprimés
+        NB: l'opperation est effectuée dans un signal sur la fonction 
+        patternStamp_back_up() du fichier signals.py
+        
+        
+"""
 
 class Commande(models.Model):
     id = models.AutoField(primary_key=True)

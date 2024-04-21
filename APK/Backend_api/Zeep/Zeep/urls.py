@@ -18,16 +18,25 @@ from django.contrib import admin
 from django.urls import include, path
 import Stamp.views 
 
-from rest_framework import routers
-
+from  rest_framework import routers
+from  Stamp.views  import Admin_PatternStamp,Read_PatternStamp
 
 router = routers.SimpleRouter()
+from Stamp.views  import Admin_PatternStamp,Read_PatternStamp
+router.register('stamp/admin_PatternStamp',Admin_PatternStamp,basename="Admin-PatternStamp")
+router.register('stamp/read_PatternStamp',Read_PatternStamp,basename="Read-PatternStamp")
+
+
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('stamp/',include('Stamp.urls')),
     path('accounts/', include('allauth.urls')),
     path('accounts/profile/', Stamp.views.profile,name='account_profile'),
     path('', Stamp.views.profile,name='home'),
+    path('api/',include(router.urls)),
     
     
     #path('',include('Stamp.urls')),

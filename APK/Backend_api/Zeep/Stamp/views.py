@@ -2,14 +2,26 @@ from django.forms import model_to_dict
 from django.shortcuts import render
 from django.contrib.auth.models import User
 
+from .serializers import PatternStamp_liste_serializer,PatternStamp_detail_serializer
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.decorators  import api_view
 from django.http import JsonResponse
-
-from Stamp.models import Brou,CustomUser
+from rest_framework.viewsets import ReadOnlyModelViewSet,ModelViewSet
+from Stamp.models import PatternStamp,CustomUser
 from django.contrib.auth.decorators import login_required
 
+from .permissions import IsAdminAuthenticated
+
+
+class MultipleSerializerMixin:
+
+    detail_serializer_class = None
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve' and self.detail_serializer_class is not None:
+            return self.detail_serializer_class
+        return super().get_serializer_class()
 
 
 
@@ -46,3 +58,23 @@ def api_view(request):
 @login_required        
 def profile(request):
     return render(request,'Stamp/profile.html',{})
+
+
+class Read_PatternStamp(ReadOnlyModelViewSet):
+    serializer_class = PatternStamp_liste_serializer
+    detail_serializer_class = PatternStamp_detail_serializer
+    
+    def get_queryset(self):
+        return PatternStamp.objects.all()
+    
+
+class Admin_PatternStamp(ModelViewSet):
+    
+    serializer_class = PatternStamp_liste_serializer
+    detail_serializer_class = PatternStamp_detail_serializer
+    permission_classes = [IsAdminAuthenticated]
+    
+    def get_queryset(self):
+        return PatternStamp.objects.all()
+    
+    
