@@ -2,13 +2,13 @@ from django.forms import model_to_dict
 from django.shortcuts import render
 from django.contrib.auth.models import User
 
-from .serializers import PatternStamp_liste_serializer,PatternStamp_detail_serializer
+from .serializers import PatternStamp_liste_serializer,PatternStamp_detail_serializer,Monture_detail_serializer,Monture_liste_serializer
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.decorators  import api_view
 from django.http import JsonResponse
 from rest_framework.viewsets import ReadOnlyModelViewSet,ModelViewSet
-from Stamp.models import PatternStamp,CustomUser
+from Stamp.models import PatternStamp,CustomUser,Monture
 from django.contrib.auth.decorators import login_required
 
 from .permissions import IsAdminAuthenticated
@@ -72,9 +72,32 @@ class Admin_PatternStamp(ModelViewSet):
     
     serializer_class = PatternStamp_liste_serializer
     detail_serializer_class = PatternStamp_detail_serializer
-    permission_classes = [IsAdminAuthenticated]
+    permission_classes =   [IsAdminAuthenticated]
     
     def get_queryset(self):
         return PatternStamp.objects.all()
     
     
+    
+    
+    
+class Read_Monture(ReadOnlyModelViewSet):
+    
+    serializer_class = Monture_liste_serializer
+    detail_serializer_class = Monture_detail_serializer
+    def get_queryset(self):
+        return Monture.objects.all()
+    
+
+class Admin_Monture(ModelViewSet):
+    
+    serializer_class = Monture_liste_serializer
+    detail_serializer_class = Monture_detail_serializer
+    permission_classes =   [IsAdminAuthenticated]
+    
+    def get_queryset(self):
+        return Monture.objects.all()
+    
+    
+    
+

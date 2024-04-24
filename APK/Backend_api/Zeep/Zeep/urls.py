@@ -18,14 +18,11 @@ from django.contrib import admin
 from django.urls import include, path
 import Stamp.views 
 
-from  rest_framework import routers
-from  Stamp.views  import Admin_PatternStamp,Read_PatternStamp
 
-router = routers.SimpleRouter()
-from Stamp.views  import Admin_PatternStamp,Read_PatternStamp
-router.register('stamp/admin_PatternStamp',Admin_PatternStamp,basename="Admin-PatternStamp")
-router.register('stamp/read_PatternStamp',Read_PatternStamp,basename="Read-PatternStamp")
-
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 
 
@@ -36,10 +33,16 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('accounts/profile/', Stamp.views.profile,name='account_profile'),
     path('', Stamp.views.profile,name='home'),
-    path('api/',include(router.urls)),
     
     
-    #path('',include('Stamp.urls')),
+    
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    
+    
+    
     
 ]
 

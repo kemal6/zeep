@@ -1,7 +1,35 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+ROND= 'ROND'
+CARRE = "CARRE"
 
+BOIS = 'BOIS'
+PLASTIQUE_MECANIQUE = "PLASTIQUE_MECANIQUE"
+PLASTIQUE_INSOLE  = "PLASTIQUE_INSOLE"
+
+DIM_6X8 = "DIM_6X8"
+
+
+
+
+FORME_CHOICES = (
+        
+        (ROND,'Rond'),
+        (CARRE,'Carré')
+    )
+
+
+TYPE_CHOICES = (
+        
+        (BOIS,'BOIS'),
+        (PLASTIQUE_MECANIQUE,'En plastique avec mequanisme de Rabattement'),
+        (PLASTIQUE_INSOLE,'En plastique  avec gaumme insoléz')
+    )
+
+DIMENSION_CHOICES = (
+    (DIM_6X8,'6cm x 8 cm'),
+)
 class Brou(models.Model):
     id = models.AutoField(primary_key=True)
     nom = models.CharField(max_length=20)
@@ -35,11 +63,15 @@ class Paiement(models.Model):
 
 class Monture(models.Model):
     id = models.AutoField(primary_key=True)
-    type = models.IntegerField()
+    type = models.CharField(max_length=255,choices=TYPE_CHOICES, null=True, blank=True)
     prix = models.DecimalField(max_digits=10, decimal_places=2)
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    dimensions = models.CharField(max_length=255,choices=DIMENSION_CHOICES, null=True, blank=True)
+    forme = models.CharField(max_length=255,choices=FORME_CHOICES, null=True, blank=True)
+    image_example = models.ImageField(upload_to='MEDIA/image_example/Monture',blank=True,null=True)
+
 
 class Encrier(models.Model):
     id = models.AutoField(primary_key=True)
@@ -50,13 +82,7 @@ class Encrier(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class PatternStamp(models.Model):
-    ROND= 'ROND'
-    CARRE = "CARRE"
-    FORME_CHOICES = (
-        
-        (ROND,'Rond'),
-        (CARRE,'Carré')
-    )
+    
     id = models.AutoField(primary_key=True)
     titre = models.CharField(max_length=255)
     forme = models.CharField(max_length=255,choices=FORME_CHOICES, null=True, blank=True)
